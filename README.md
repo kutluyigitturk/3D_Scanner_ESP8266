@@ -2,10 +2,9 @@
 
 # 3D_Scanner_ESP8266
 
-![Arduino](https://img.shields.io/badge/Arduino_IDE-00979D?style=for-the-badge&logo=arduino&logoColor=white)
-![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
+[![Arduino](https://img.shields.io/badge/Arduino_IDE-00979D?style=for-the-badge&logo=arduino&logoColor=white)](https://docs.arduino.cc/software/ide/)
+[![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)](https://learncpp.com/)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://www.w3schools.com/html/default.asp)
 
 **A real-time 3D point cloud scanner over WiFi using Arduino Uno, ESP8266 and VL53L0X laser distance sensor.**
 
@@ -18,10 +17,10 @@
 | Component | Quantity |
 |---|---|
 | Arduino Uno | 1 |
-| ESP8266 WiFi Module | 1 |
+| ESP8266-01S WiFi Module | 1 |
 | VL53L0X Laser Distance Sensor | 1 |
-| Servo Motor (Pan) | 1 |
-| Servo Motor (Tilt) | 1 |
+| MG90S Servo Motor (Pan) | 1 |
+| MG90S Servo Motor (Tilt) | 1 |
 
 ---
 
