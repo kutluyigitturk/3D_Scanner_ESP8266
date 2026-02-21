@@ -1,50 +1,50 @@
-# 3D_Scanner_ESP8266
-
 <div align="center">
+
+# 3D_Scanner_ESP8266
 
 ![Arduino](https://img.shields.io/badge/Arduino_IDE-00979D?style=for-the-badge&logo=arduino&logoColor=white)
 ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
 
-**Arduino Uno + ESP8266 + VL53L0X lazer sensörü ile WiFi üzerinden gerçek zamanlı 3D nokta bulutu tarayıcı.**
+**A real-time 3D point cloud scanner over WiFi using Arduino Uno, ESP8266 and VL53L0X laser distance sensor.**
 
 </div>
 
 ---
 
-## Donanım
+## Hardware
 
-| Bileşen | Adet |
+| Component | Quantity |
 |---|---|
 | Arduino Uno | 1 |
-| ESP8266 WiFi Modülü | 1 |
-| VL53L0X Lazer Mesafe Sensörü | 1 |
+| ESP8266 WiFi Module | 1 |
+| VL53L0X Laser Distance Sensor | 1 |
 | Servo Motor (Pan) | 1 |
 | Servo Motor (Tilt) | 1 |
 
 ---
 
-## Bağlantı Şeması
+## Wiring
 
-| Bileşen | Arduino Pin | Not |
+| Component | Arduino Pin | Note |
 |---|---|---|
 | Servo Pan | D9 | PWM |
 | Servo Tilt | D10 | PWM |
 | VL53L0X SDA | A4 | I2C Data |
 | VL53L0X SCL | A5 | I2C Clock |
-| ESP8266 RX | D3 (SoftSerial TX) | ⚠️ Voltaj bölücü kullan! |
-| ESP8266 TX | D2 (SoftSerial RX) | Doğrudan bağlanabilir |
+| ESP8266 RX | D3 (SoftSerial TX) | ⚠️ Use voltage divider! |
+| ESP8266 TX | D2 (SoftSerial RX) | Direct connection |
 
-> ⚠️ Arduino Uno 5V, ESP8266 3.3V mantık seviyesiyle çalışır. D3 → ESP8266 RX hattına mutlaka voltaj bölücü ekle.
+> ⚠️ Arduino Uno operates at 5V while ESP8266 uses 3.3V logic. A voltage divider is required on the D3 → ESP8266 RX line.
 
 ---
 
-## Kurulum
+## Setup
 
-### 1. Kütüphaneler
+### 1. Libraries
 
-Arduino IDE'de aşağıdaki kütüphaneleri yükle:
+Install the following libraries via Arduino IDE Library Manager:
 
 - `VL53L0X` — Pololu
 - `Servo` — Arduino Built-in
@@ -53,83 +53,83 @@ Arduino IDE'de aşağıdaki kütüphaneleri yükle:
 - `ESP8266WebServer` — ESP8266 Community
 - `LittleFS` — ESP8266 Community
 
-### 2. ESP8266 Board Desteği
+### 2. ESP8266 Board Support
 
-Arduino IDE → **Dosya > Tercihler > Ek Kart URL'leri** kısmına ekle:
+Go to **File > Preferences > Additional Board Manager URLs** and add:
 
 ```
 https://arduino.esp8266.com/stable/package_esp8266com_index.json
 ```
 
-Ardından **Araçlar > Kart Yöneticisi**'nden `esp8266` paketini yükle.
+Then install the `esp8266` package from **Tools > Board Manager**.
 
-### 3. Flash Ayarı
+### 3. Flash Size
 
-ESP8266'yı derlemeden önce:
+Before uploading to ESP8266, set:
 
-**Araçlar > Flash Size > `4MB (FS:2MB OTA:~1MB)`** seçeneğini ayarla.
+**Tools > Flash Size > `4MB (FS:2MB OTA:~1MB)`**
 
-LittleFS dosya sistemi bu alan olmadan çalışmaz.
+LittleFS requires a dedicated flash partition to store scan data.
 
-### 4. Kodları Yükle
+### 4. Upload Order
 
-Önce `ESP8266_Server.ino` dosyasını ESP8266'ya yükle, ardından `Uno_Controller.ino` dosyasını Arduino Uno'ya yükle.
+Upload `ESP8266_Server.ino` to the ESP8266 first, then upload `Uno_Controller.ino` to the Arduino Uno.
 
 ---
 
-## Kullanım
+## Usage
 
-1. Sistemi besle — ESP8266 **`3D_Scanner_Project`** adında bir WiFi ağı oluşturur.
-2. Telefon veya bilgisayardan bu ağa bağlan. Şifre: **`12345678`**
-3. Tarayıcıdan **`192.168.4.1`** adresine git.
-4. **`192.168.4.1/scan`** adresine giderek taramayı başlat.
-5. Tarama tamamlandıktan sonra ana sayfaya dön — nokta bulutu WebGL ile görselleştirilir.
+1. Power on the system — the ESP8266 will create a WiFi access point named **`3D_Scanner_Project`**.
+2. Connect your phone or computer to this network. Password: **`12345678`**
+3. Open a browser and go to **`192.168.4.1`**.
+4. Navigate to **`192.168.4.1/scan`** to start a scan.
+5. Once the scan is complete, return to the main page — the point cloud will be rendered in WebGL.
 
-### Diğer Endpoint'ler
+### Endpoints
 
-| Adres | İşlev |
+| Address | Function |
 |---|---|
-| `/scan` | Taramayı başlatır |
-| `/status` | JSON formatında anlık durum |
-| `/reset` | Önceki tarama verisini siler |
-| `/format` | LittleFS dosya sistemini formatlar |
+| `/scan` | Starts a new scan |
+| `/status` | Returns current status as JSON |
+| `/reset` | Clears previous scan data |
+| `/format` | Formats the LittleFS filesystem |
 
 ---
 
-## Pan-Tilt Açılarını Ayarlama
+## Adjusting Pan-Tilt Angles
 
-`Uno_Controller.ino` içindeki bu bloktan tarama alanını özelleştirebilirsin:
+You can customize the scan area by editing the configuration block at the top of `Uno_Controller.ino`:
 
 ```cpp
-const int YAW_MIN  = 0;   // Pan başlangıç açısı (°)
-const int YAW_MAX  = 80;  // Pan bitiş açısı     (°)
-const int PITCH_MIN = 0;  // Tilt başlangıç açısı (°)
-const int PITCH_MAX = 90; // Tilt bitiş açısı     (°)
+const int YAW_MIN  = 0;   // Pan start angle  (°)
+const int YAW_MAX  = 80;  // Pan end angle    (°)
+const int PITCH_MIN = 0;  // Tilt start angle (°)
+const int PITCH_MAX = 90; // Tilt end angle   (°)
 
-const int STEP_YAW   = 2; // Adım büyüklüğü — küçük = daha fazla nokta, yavaş tarama
+const int STEP_YAW   = 2; // Step size — smaller = more points, slower scan
 const int STEP_PITCH = 2;
 
-const float VALID_MIN = 0.04f; // Geçerli mesafe aralığı (metre)
+const float VALID_MIN = 0.04f; // Valid distance range (meters)
 const float VALID_MAX = 0.30f;
 ```
 
 ---
 
-## 3D Baskı Parçaları
+## 3D Printable Parts
 
-`3D Printable Parts/` klasöründe sistemin montajı için gerekli parçalar bulunmaktadır.
+The `3D Printable Parts/` folder contains all parts needed to assemble the scanner mechanism.
 
-Tripod için dış kaynak kullanılmıştır:
+The tripod used in this project is sourced from:
 **[Folding Tripod — MakerWorld](https://makerworld.com/tr/models/671280-folding-tripod-two-sizes?from=search#profileId-599018)**
 
 ---
 
-## İlham
+## Inspiration
 
-Bu proje **[bitluni](https://bitluni.net/3d-scanner)** tarafından geliştirilen orijinal ESP8266 3D tarayıcıdan ilham alınarak yeniden tasarlanmıştır.
+This project is inspired by the original ESP8266 3D scanner by **[bitluni](https://bitluni.net/3d-scanner)**.
 
 ---
 
-## Lisans
+## License
 
-Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.
+This project is licensed under the [MIT License](LICENSE).
