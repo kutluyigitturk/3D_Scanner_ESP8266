@@ -22,6 +22,10 @@
 | VL53L0X Laser Distance Sensor | 1 |
 | MG90S Servo Motor (Pan) | 1 |
 | MG90S Servo Motor (Tilt) | 1 |
+| AMS1117 3.3V Voltage Regulator Module | 1 |
+| USB to TTL - CP2102 | 1 |
+| 3D Printing Chasis | 1 |
+
 
 ---
 
