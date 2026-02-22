@@ -117,7 +117,7 @@ const float VALID_MAX = 0.30f;
 
 ## Flashing the ESP8266-01S
 
-![ESP8266-01S Flashing Setup](Wiring%20Diagrams/esp8266-01s_firmware_flashing.jpeg)
+![ESP8266-01S Flashing Setup](Wiring%20Diagrams/esp8266-01s_firmware_flashing.jpg)
 
 ### ESP8266-01S Firmware Flashing Procedure
 This section details the hardware setup required to flash custom firmware onto the ESP8266-01S using the Arduino IDE. Due to the minimal pin output of the ESP-01S, a special USB-TTL serial converter is required for programming.
