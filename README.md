@@ -30,13 +30,21 @@
 | Component | Arduino Pin | Note |
 |---|---|---|
 | Servo Pan | D9 | PWM |
+| Servo Pan | 5V | Power |
+| Servo Pan | GND | Ground |
 | Servo Tilt | D10 | PWM |
+| Servo Tilt | 5V | Power |
+| Servo Tilt |GND | Ground |
 | VL53L0X SDA | A4 | I2C Data |
 | VL53L0X SCL | A5 | I2C Clock |
-| ESP8266 RX | D3 (SoftSerial TX) | ⚠️ Use voltage divider! |
+| VL53L0X VIN | 3V3 | Power |
+| VL53L0X GND | GND | Ground |
+| ESP8266 RX | D3 (SoftSerial TX) | Direct connection |
 | ESP8266 TX | D2 (SoftSerial RX) | Direct connection |
+| ESP8266 CH_PD,VCC | 3V3 | Power |
+| ESP8266 GND | GND | Ground |
 
-> ⚠️ Arduino Uno operates at 5V while ESP8266 uses 3.3V logic. A voltage divider is required on the D3 → ESP8266 RX line.
+![Main Wiring Diagram](Wiring%20Diagrams/wiring_diagram_main.jpg)
 
 ---
 
