@@ -115,6 +115,35 @@ const float VALID_MAX = 0.30f;
 
 ---
 
+## Flashing the ESP8266-01S
+
+![ESP8266-01S Flashing Setup](Wiring%20Diagrams/esp8266-01s_firmware_flashing.jpeg)
+
+### ESP8266-01S Firmware Flashing Procedure
+This section details the hardware setup required to flash custom firmware onto the ESP8266-01S using the Arduino IDE. Due to the minimal pin output of the ESP-01S, a special USB-TTL serial converter is required for programming.
+
+#### B.1 Critical Power Supply Considerations
+Most USB-TTL converters provide a maximum of 50–100mA from the 3.3V pin, but the ESP8266-01S can draw up to 170–300mA during programming. Insufficient current causes:
+- Brownout reset (continuous reset due to voltage drop)
+- Connection drops during firmware upload
+- "Failed to connect to ESP8266" errors
+- Risk of permanent damage to the module
+
+#### B.2 AMS1117-3.3 Regulator Solution
+The AMS1117-3.3 linear voltage regulator solves this by providing a stable 3.3V/800mA from the 5V USB supply.
+
+**Key connections:**
+
+1. **GND** — Connect ESP-01S GND to AMS1117 GND.
+2. **VCC & CH_PD** — Connect ESP-01S VCC and CH_PD (Chip Enable) to AMS1117 VOUT+.
+   > ⚠️ Do **not** power the ESP-01S directly from the USB-TTL adapter's 3.3V pin — it cannot supply sufficient current.
+3. **TX/RX** — Cross-connect the serial lines:
+   - ESP-01S `TXD` → USB-TTL `RXD`
+   - ESP-01S `RXD` → USB-TTL `TXD`
+4. **Flashing Mode** — Connect ESP-01S `GPIO0` directly to GND. This puts the module into bootloader mode, ready to receive new firmware.
+
+---
+
 ## 3D Printable Parts
 
 The `3D Printable Parts/` folder contains all parts needed to assemble the scanner mechanism.
