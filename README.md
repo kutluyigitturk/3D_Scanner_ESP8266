@@ -122,14 +122,14 @@ const float VALID_MAX = 0.30f;
 ### ESP8266-01S Firmware Flashing Procedure
 This section details the hardware setup required to flash custom firmware onto the ESP8266-01S using the Arduino IDE. Due to the minimal pin output of the ESP-01S, a special USB-TTL serial converter is required for programming.
 
-#### B.1 Critical Power Supply Considerations
+#### Critical Power Supply Considerations
 Most USB-TTL converters provide a maximum of 50–100mA from the 3.3V pin, but the ESP8266-01S can draw up to 170–300mA during programming. Insufficient current causes:
 - Brownout reset (continuous reset due to voltage drop)
 - Connection drops during firmware upload
 - "Failed to connect to ESP8266" errors
 - Risk of permanent damage to the module
 
-#### B.2 AMS1117-3.3 Regulator Solution
+#### AMS1117-3.3 Regulator Solution
 The AMS1117-3.3 linear voltage regulator solves this by providing a stable 3.3V/800mA from the 5V USB supply.
 
 **Key connections:**
